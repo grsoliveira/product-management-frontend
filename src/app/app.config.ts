@@ -1,9 +1,13 @@
+
 import {ApplicationConfig, importProvidersFrom, provideZoneChangeDetection} from '@angular/core';
 import {provideRouter} from '@angular/router';
 
 import {routes} from './app.routes';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ReactiveFormsModule} from '@angular/forms';
+
+import {routes} from './app.routes';
+
 import {provideHttpClient} from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
@@ -12,5 +16,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(),
     importProvidersFrom(NgbModule, ReactiveFormsModule),
+
   ]
 };
