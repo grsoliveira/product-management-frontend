@@ -5,6 +5,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ProductAddDialogComponent} from '../../product-add-dialog/product-add-dialog.component';
 import {Product, ProductService} from '../../services/product.service';
 import {ProductDeleteConfirmationComponent} from "../../product-remove-dialog/product-delete-confirmation.component";
+import {ProductEditDialogComponent} from "../../product-edit-dialog/product-edit-dialog.component";
 
 @Component({
   selector: 'app-product-list',
@@ -58,13 +59,28 @@ export class ProductListComponent implements OnInit {
       backdrop: 'static'
     });
 
-    modalRef.componentInstance.product = product;  // Passando o produto para o modal
+    modalRef.componentInstance.product = product;
 
     modalRef.result.then((result) => {
       if (result === 'confirm') {
         if (result === 'confirm' && product.id !== undefined) {
           this.deleteProduct(product.id);
         }
+      }
+    }, () => {});
+  }
+
+  openEditProductDialog(product: Product): void {
+    const modalRef = this.modalService.open(ProductEditDialogComponent, {
+      centered: true,
+      backdrop: 'static'
+    });
+
+    modalRef.componentInstance.product = product;
+
+    modalRef.result.then((result) => {
+      if (result === 'refresh') {
+        this.loadProducts();
       }
     }, () => {});
   }

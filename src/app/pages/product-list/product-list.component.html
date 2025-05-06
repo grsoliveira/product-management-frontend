@@ -19,8 +19,11 @@
       <td>{{ product.price | currency }}</td>
       <td>{{ product.category?.name || '-' }}</td>
       <td>
+        <button class="btn btn-warning" (click)="openEditProductDialog(product)">
+          <i class="fas fa-edit"></i> Edit
+        </button>
         <button class="btn btn-danger" (click)="openDeleteConfirmationDialog(product)">
-          <i class="fa fa-trash"></i>
+          <i class="fa fa-trash"></i> Delete
         </button>
       </td>
     </tr>
