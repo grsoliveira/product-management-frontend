@@ -1,0 +1,33 @@
+<div class="modal-header">
+  <h5 class="modal-title">Add Product</h5>
+  <button type="button" class="btn-close" aria-label="Close" (click)="cancel()"></button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="productForm">
+    <!-- Campo Name -->
+    <div class="mb-3">
+      <label>Name</label>
+      <input type="text" class="form-control" formControlName="name">
+    </div>
+
+    <!-- Campo Price -->
+    <div class="mb-3">
+      <label>Price</label>
+      <input type="number" class="form-control" formControlName="price">
+    </div>
+
+    <!-- Campo Category -->
+    <div class="mb-3">
+      <label>Category</label>
+      <select class="form-control" formControlName="category">
+        <option *ngFor="let category of categories" [value]="category.id">
+          {{ category.name }}
+        </option>
+      </select>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+  <button type="button" class="btn btn-primary" (click)="save()">Save</button>
+</div>
