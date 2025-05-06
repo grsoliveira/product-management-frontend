@@ -4,6 +4,7 @@ import {CurrencyPipe, NgForOf} from '@angular/common';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ProductAddDialogComponent} from '../../product-add-dialog/product-add-dialog.component';
 import {Product, ProductService} from '../../services/product.service';
+import {ProductDeleteConfirmationComponent} from "../../product-remove-dialog/product-delete-confirmation.component";
 
 @Component({
   selector: 'app-product-list',
@@ -49,5 +50,33 @@ export class ProductListComponent implements OnInit {
         this.loadProducts();
       }
     }, () => {});
+  }
+
+  openDeleteConfirmationDialog(product: Product): void {
+    const modalRef = this.modalService.open(ProductDeleteConfirmationComponent, {
+      centered: true,
+      backdrop: 'static'
+    });
+
+    modalRef.componentInstance.product = product;  // Passando o produto para o modal
+
+    modalRef.result.then((result) => {
+      if (result === 'confirm') {
+        if (result === 'confirm' && product.id !== undefined) {
+          this.deleteProduct(product.id);
+        }
+      }
+    }, () => {});
+  }
+
+  deleteProduct(productId: number): void {
+    this.productService.deleteProduct(productId).subscribe({
+      next: () => {
+        this.loadProducts();
+      },
+      error: (err) => {
+        this.loadProducts();
+      }
+    });
   }
 }

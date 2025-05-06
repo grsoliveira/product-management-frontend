@@ -9,6 +9,7 @@
       <th>Name</th>
       <th>Price</th>
       <th>Category</th>
+      <th>Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -17,6 +18,11 @@
       <td>{{ product.name }}</td>
       <td>{{ product.price | currency }}</td>
       <td>{{ product.category?.name || '-' }}</td>
+      <td>
+        <button class="btn btn-danger" (click)="openDeleteConfirmationDialog(product)">
+          <i class="fa fa-trash"></i>
+        </button>
+      </td>
     </tr>
     </tbody>
   </table>
