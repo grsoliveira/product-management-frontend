@@ -5,18 +5,6 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ProductAddDialogComponent} from '../../product-add-dialog/product-add-dialog.component';
 import {Product, ProductService} from '../../services/product.service';
 
-interface CategoryDTO {
-  id: string;
-  name: string;
-}
-
-interface ProductDTO {
-  id: string;
-  name: string;
-  price: number;
-  category?: CategoryDTO;
-}
-
 @Component({
   selector: 'app-product-list',
   imports: [
