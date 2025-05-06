@@ -1,0 +1,23 @@
+<div class="container mt-4">
+  <h2>Product List</h2>
+  <button class="btn btn-primary mb-3" (click)="openAddProductDialog()">Add Product</button>
+
+  <table class="table table-bordered table-hover mt-3">
+    <thead class="table-light">
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Category</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let product of products">
+      <td>{{ product.id }}</td>
+      <td>{{ product.name }}</td>
+      <td>{{ product.price | currency }}</td>
+      <td>{{ product.category?.name || '-' }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
