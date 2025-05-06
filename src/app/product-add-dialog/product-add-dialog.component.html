@@ -4,13 +4,26 @@
 </div>
 <div class="modal-body">
   <form [formGroup]="productForm">
+    <!-- Campo Name -->
     <div class="mb-3">
       <label>Name</label>
       <input type="text" class="form-control" formControlName="name">
     </div>
+
+    <!-- Campo Price -->
     <div class="mb-3">
       <label>Price</label>
       <input type="number" class="form-control" formControlName="price">
+    </div>
+
+    <!-- Campo Category -->
+    <div class="mb-3">
+      <label>Category</label>
+      <select class="form-control" formControlName="category">
+        <option *ngFor="let category of categories" [value]="category.id">
+          {{ category.name }}
+        </option>
+      </select>
     </div>
   </form>
 </div>

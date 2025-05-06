@@ -18,23 +18,28 @@ export interface Category {
   providedIn: 'root'
 })
 export class ProductService {
-  private baseUrl = '/api/v1/product';
+  private baseProductUrl = '/api/v1/product';
+  private baseCategoryUrl = '/api/v1/category';
 
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.baseUrl);
+    return this.http.get<Product[]>(this.baseProductUrl);
+  }
+
+  getAllCategories(): Observable<Category[]> {
+    return this.http.get<Category[]>(this.baseCategoryUrl);
   }
 
   createProduct(product: Product): Observable<Product> {
-    return this.http.post<Product>(this.baseUrl, product);
+    return this.http.post<Product>(this.baseProductUrl, product);
   }
 
   updateProduct(product: Product): Observable<Product> {
-    return this.http.put<Product>(`${this.baseUrl}/${product.id}`, product);
+    return this.http.put<Product>(`${this.baseProductUrl}/${product.id}`, product);
   }
 
   deleteProduct(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+    return this.http.delete<void>(`${this.baseProductUrl}/${id}`);
   }
 }
