@@ -18,6 +18,11 @@ jobs:
         with:
           service_account_key: ${{ secrets.GCP_CREDENTIALS }}
           project_id: anserjufe-319714
+          
+      - name: Setup Docker Authentication
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
 
       - name: Configure Docker for Artifact Registry
         run: gcloud auth configure-docker southamerica-east1-docker.pkg.dev --quiet
