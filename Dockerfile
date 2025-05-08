@@ -19,6 +19,9 @@ FROM nginx:alpine
 # Copia os arquivos buildados do Angular para o Nginx
 COPY --from=builder /app/dist/product-management-frontend /usr/share/nginx/html
 
+# Copia o nginx.conf customizado
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 # Exponha a porta padrão do Nginx
 EXPOSE 80
 
