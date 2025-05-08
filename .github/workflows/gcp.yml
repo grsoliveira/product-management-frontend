@@ -1,4 +1,4 @@
-name: Deploy product-manager-frontend to GCP
+name: Deploy product-management-frontend to GCP
 
 on:
   push:
@@ -24,16 +24,16 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t southamerica-east1-docker.pkg.dev/anserjufe-319714/docker-repo/product-manager-frontend:latest .
+          docker build -t southamerica-east1-docker.pkg.dev/anserjufe-319714/docker-repo/product-management-frontend:latest .
 
       - name: Push Docker image to Artifact Registry
         run: |
-          docker push southamerica-east1-docker.pkg.dev/anserjufe-319714/docker-repo/product-manager-frontend:latest
+          docker push southamerica-east1-docker.pkg.dev/anserjufe-319714/docker-repo/product-management-frontend:latest
 
       - name: Deploy to Cloud Run
         run: |
-          gcloud run deploy product-manager-frontend \
-            --image southamerica-east1-docker.pkg.dev/anserjufe-319714/docker-repo/product-manager-frontend:latest \
+          gcloud run deploy product-management-frontend \
+            --image southamerica-east1-docker.pkg.dev/anserjufe-319714/docker-repo/product-management-frontend:latest \
             --region southamerica-east1 \
             --platform managed \
             --allow-unauthenticated \
