@@ -2,7 +2,7 @@ name: Deploy frontend to GCP
 
 on:
   push:
-    branches: [ "deploy-frontend" ]
+    branches: [ "deploy" ]
 
 jobs:
   deploy:
