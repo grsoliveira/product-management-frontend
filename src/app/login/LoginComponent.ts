@@ -27,7 +27,7 @@ import {AuthService} from '../service/AuthService';
         <h2 class="text-center mb-4">Login</h2>
         <div class="flex flex-column gap-3">
           <div class="field">
-            <label for="username">Usuário</label>
+            <label for="username">User</label>
             <input
               id="username"
               pInputText
@@ -37,7 +37,7 @@ import {AuthService} from '../service/AuthService';
             />
           </div>
           <div class="field">
-            <label for="password">Senha</label>
+            <label for="password">Password</label>
             <p-password
               id="password"
               [(ngModel)]="password"
@@ -48,7 +48,7 @@ import {AuthService} from '../service/AuthService';
             ></p-password>
           </div>
           <p-button
-            label="Entrar"
+            label="Enter"
             (click)="login()"
             [loading]="loading"
             class="w-full"
@@ -74,7 +74,7 @@ export class LoginComponent {
       this.messageService.add({
         severity: 'error',
         summary: 'Erro',
-        detail: 'Preencha todos os campos',
+        detail: 'Fill all fields',
         life: 3000
       });
       return;
@@ -86,9 +86,9 @@ export class LoginComponent {
         this.router.navigate(['/']);
       },
       error: (error) => {
-        let message = 'Erro ao fazer login';
+        let message = 'Error on login';
         if (error.status === 401) {
-          message = 'Usuário ou senha inválidos';
+          message = 'User or password invalid';
         }
         this.messageService.add({
           severity: 'error',

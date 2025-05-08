@@ -18,6 +18,12 @@ export class ProductService {
     return this.http.get<ProductToList[]>(this.baseProductUrl);
   }
 
+  getById(id: number): Observable<any> {
+    return this.http.get<Product>(`${this.baseProductUrl}/${id}`, {
+      observe: 'response'
+    });
+  }
+
   getAllCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(this.baseCategoryUrl);
   }

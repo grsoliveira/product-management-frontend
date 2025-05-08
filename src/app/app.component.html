@@ -56,10 +56,10 @@
       <td>{{product.category}}</td>
       <td>
         <p-button label="Edit"
-                  (click)="openDialogToEdit(product)"
+                  (click)="openDialogToEdit(product.id)"
                   [style]="{'margin-right': '.5em'}"/>
         <p-button label="Remove"
-                  (click)="openDialogToDelete(product)"/>
+                  (click)="openDialogToDelete(product.id)"/>
       </td>
     </tr>
   </ng-template>

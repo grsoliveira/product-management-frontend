@@ -9,6 +9,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { Product } from '../model/product.model';
 import { Category } from '../model/category.model';
 import { ProductService } from '../service/product.service';
+import {Textarea} from 'primeng/textarea';
 
 @Component({
   standalone: true,
@@ -20,7 +21,8 @@ import { ProductService } from '../service/product.service';
     ButtonModule,
     FormsModule,
     InputNumberModule,
-    DropdownModule
+    DropdownModule,
+    Textarea
   ],
   template: `
     <p-dialog
@@ -32,7 +34,20 @@ import { ProductService } from '../service/product.service';
     >
       <div class="flex flex-column gap-3">
         <div class="field">
-          <label for="productName">Nome:</label>
+          <label for="productCategory">Category:</label>
+          <p-dropdown
+            id="productCategory"
+            [options]="categories"
+            [(ngModel)]="selectedCategory"
+            optionLabel="name"
+            (onChange)="onCategoryChange($event)"
+            class="w-full"
+            placeholder="Select a category"
+          />
+        </div>
+
+        <div class="field">
+          <label for="productName">Name:</label>
           <input
             id="productName"
             type="text"
@@ -43,7 +58,30 @@ import { ProductService } from '../service/product.service';
         </div>
 
         <div class="field">
-          <label for="productPrice">Preço:</label>
+          <label for="productDescription">Description:</label>
+          <textarea
+            id="productDescription"
+            type="text"
+            pInputTextarea
+            [(ngModel)]="newProduct.description"
+            rows="4"
+            class="w-full"
+          ></textarea>
+        </div>
+
+        <div class="field">
+          <label for="productAmount">Amount:</label>
+          <p-inputNumber
+            [(ngModel)]="newProduct.amount"
+            [useGrouping]="false"
+            [minFractionDigits]="0"
+            [maxFractionDigits]="0"
+            class="w-full"
+          />
+        </div>
+
+        <div class="field">
+          <label for="productPrice">Price:</label>
           <p-inputNumber
             id="productPrice"
             [(ngModel)]="newProduct.price"
@@ -54,29 +92,17 @@ import { ProductService } from '../service/product.service';
           />
         </div>
 
-        <div class="field">
-          <label for="productCategory">Categoria:</label>
-          <p-dropdown
-            id="productCategory"
-            [options]="categories"
-            [(ngModel)]="selectedCategory"
-            optionLabel="name"
-            (onChange)="onCategoryChange($event)"
-            class="w-full"
-            placeholder="Selecione uma categoria"
-          />
-        </div>
       </div>
 
       <ng-template pTemplate="footer">
         <p-button
-          label="Cancelar"
+          label="Cancel"
           icon="pi pi-times"
           (click)="cancel()"
           class="p-button-text"
         />
         <p-button
-          label="Criar"
+          label="Create"
           icon="pi pi-check"
           (click)="handleConfirmCreate()"
         />
@@ -113,7 +139,7 @@ export class CreateProductDialogComponent implements OnInit {
         this.categories = categories;
       },
       error: (error) => {
-        console.error('Erro ao carregar categorias:', error);
+        console.error('Error on loading categories:', error);
       }
     });
   }

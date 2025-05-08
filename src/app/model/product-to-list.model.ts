@@ -1,4 +1,3 @@
-import {Category} from './category.model';
 
 export interface ProductToList {
   id?: number;

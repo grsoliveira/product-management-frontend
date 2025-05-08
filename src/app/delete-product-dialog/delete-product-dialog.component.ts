@@ -15,13 +15,13 @@ import { Product } from '../model/product.model';
       [closable]="false"
       [style]="{ width: '30vw' }"
     >
-      <p>Tem certeza que deseja remover <strong>{{ product?.name }}</strong>?</p>
+      <p>Are you sure you want to remove <strong>{{ product?.name }}</strong>?</p>
 
       <ng-template pTemplate="footer">
-        <p-button label="Cancelar"
+        <p-button label="Cancel"
                   class="p-button-text"
                   (click)="cancel()"/>
-        <p-button label="Remover"
+        <p-button label="Confirm"
                   class="p-button-danger"
                   (click)="confirm()"/>
       </ng-template>

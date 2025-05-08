@@ -34,8 +34,42 @@ export class AppComponent implements OnInit {
     throw new Error('Method not implemented.');
   }
 
+  private readonly messages = {
+    success: {
+      created: 'Product successfully created!',
+      updated: 'Product successfully updated!',
+      deleted: 'Product successfully deleted!'
+    },
+    error: {
+      default: 'An error has occurred',
+      create: {
+        default: 'Error creating product',
+        forbidden: 'You do not have permission to create products',
+        invalidData: 'Invalid product data',
+        conflict: 'A product with this name already exists',
+        server: 'Internal server error'
+      },
+      update: {
+        default: 'Error updating product',
+        notFound: 'Product not found',
+        forbidden: 'You do not have permission to update this product',
+        invalidData: 'Invalid product data',
+        conflict: 'Update conflict - product may have been modified',
+        server: 'Internal server error'
+      },
+      delete: {
+        default: 'Error deleting product',
+        notFound: 'Product not found',
+        forbidden: 'You do not have permission to delete this product',
+        conflict: 'Delete conflict - product may have been modified',
+        server: 'Internal server error'
+      }
+    }
+  };
+
+
   products: ProductToList[] = [];
-  selectedProduct: Product | null = null; // Corrigido o tipo para Product
+  selectedProduct: Product | null = null;
   deleteDialogVisible = false;
   editDialogVisible = false;
   createDialogVisible = false;
@@ -52,21 +86,24 @@ export class AppComponent implements OnInit {
     this.loadProducts();
   }
 
-  // Método para carregar produtos
   loadProducts() {
     this.service.getAll().subscribe((data) => {
       this.products = data;
     });
   }
 
-  openDialogToDelete(product: Product) {
-    this.selectedProduct = product;
-    this.deleteDialogVisible = true;
+  openDialogToDelete(productId: number) {
+    this.service.getById(productId).subscribe((data) => {
+      this.selectedProduct = data.body;
+      this.deleteDialogVisible = true;
+    });
   }
 
-  openDialogToEdit(product: Product) {
-    this.selectedProduct = product;
-    this.editDialogVisible = true;
+  openDialogToEdit(productId: number) {
+    this.service.getById(productId).subscribe((data) => {
+      this.selectedProduct = data.body;
+      this.editDialogVisible = true;
+    });
   }
 
   openDialogToCreate() {
@@ -80,35 +117,35 @@ export class AppComponent implements OnInit {
           this.deleteDialogVisible = false;
           this.messageService.add({
             severity: 'success',
-            summary: 'Sucesso',
-            detail: 'Produto excluído com sucesso!',
+            summary: 'Success',
+            detail: this.messages.success.deleted,
             life: 3000
           });
           this.loadProducts();
         }
       },
       error: (error: HttpErrorResponse) => {
-        let errorMessage = null;
+        let errorMessage = this.messages.error.delete.default;
 
         switch (error.status) {
           case 404:
-            errorMessage = 'Produto não encontrado';
+            errorMessage = this.messages.error.delete.notFound;
             break;
           case 403:
-            errorMessage = 'Você não tem permissão para excluir este produto';
-            break;
-          case 400:
-            errorMessage = 'Requisição inválida';
+            errorMessage = this.messages.error.delete.forbidden;
             break;
           case 500:
-            errorMessage = 'Erro interno do servidor';
+            errorMessage = this.messages.error.delete.server;
+            break;
+          case 409:
+            errorMessage = this.messages.error.delete.conflict;
             break;
         }
 
         if (errorMessage !== null) {
           this.messageService.add({
             severity: 'error',
-            summary: 'Erro',
+            summary: 'Error',
             detail: errorMessage,
             life: 5000,
             icon: 'pi pi-exclamation-triangle'
@@ -126,37 +163,37 @@ export class AppComponent implements OnInit {
           this.editDialogVisible = false;
           this.messageService.add({
             severity: 'success',
-            summary: 'Sucesso',
-            detail: 'Produto atualizado com sucesso!',
+            summary: 'Success',
+            detail: this.messages.success.updated,
             life: 3000
           });
           this.loadProducts();
         }
       },
       error: (error: HttpErrorResponse) => {
-        let errorMessage = 'Erro ao atualizar produto';
+        let errorMessage = this.messages.error.update.default;
 
         switch (error.status) {
           case 404:
-            errorMessage = 'Produto não encontrado';
+            errorMessage = this.messages.error.update.notFound;
             break;
           case 403:
-            errorMessage = 'Você não tem permissão para atualizar este produto';
+            errorMessage = this.messages.error.update.forbidden;
             break;
           case 400:
-            errorMessage = 'Dados do produto inválidos';
+            errorMessage = this.messages.error.update.invalidData;
             break;
           case 500:
-            errorMessage = 'Erro interno do servidor';
+            errorMessage = this.messages.error.update.server;
             break;
           case 409:
-            errorMessage = 'Conflito ao atualizar o produto';
+            errorMessage = this.messages.error.update.conflict;
             break;
         }
 
         this.messageService.add({
           severity: 'error',
-          summary: 'Erro',
+          summary: 'Error',
           detail: errorMessage,
           life: 5000,
           icon: 'pi pi-exclamation-triangle'
@@ -171,33 +208,33 @@ export class AppComponent implements OnInit {
         this.createDialogVisible = false;
         this.messageService.add({
           severity: 'success',
-          summary: 'Sucesso',
-          detail: 'Produto criado com sucesso!',
+          summary: 'Success',
+          detail: this.messages.success.created,
           life: 3000
         });
         this.loadProducts();
       },
       error: (error: HttpErrorResponse) => {
-        let errorMessage = 'Erro ao criar produto';
+        let errorMessage = this.messages.error.create.default;
 
         switch (error.status) {
           case 403:
-            errorMessage = 'Você não tem permissão para criar produtos';
+            errorMessage = this.messages.error.create.forbidden;
             break;
           case 400:
-            errorMessage = 'Dados do produto inválidos';
+            errorMessage = this.messages.error.create.invalidData;
             break;
           case 500:
-            errorMessage = 'Erro interno do servidor';
+            errorMessage = this.messages.error.create.server;
             break;
           case 409:
-            errorMessage = 'Já existe um produto com este nome';
+            errorMessage = this.messages.error.create.conflict;
             break;
         }
 
         this.messageService.add({
           severity: 'error',
-          summary: 'Erro',
+          summary: 'Error',
           detail: errorMessage,
           life: 5000,
           icon: 'pi pi-exclamation-triangle'
