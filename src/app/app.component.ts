@@ -10,6 +10,7 @@ import { CurrencyPipe } from '@angular/common';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { HttpErrorResponse } from '@angular/common/http';
+import {CreateProductDialogComponent} from './create-product-dialog/create-product-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,8 @@ import { HttpErrorResponse } from '@angular/common/http';
     DeleteProductDialogComponent,
     EditProductDialogComponent,
     CurrencyPipe,
-    ToastModule
+    ToastModule,
+    CreateProductDialogComponent
   ],
   providers: [MessageService], // Adiciona o MessageService ao componente
   templateUrl: './app.component.html'
@@ -33,6 +35,7 @@ export class AppComponent implements OnInit {
   selectedProduct: Product | null = null; // Corrigido o tipo para Product
   deleteDialogVisible = false;
   editDialogVisible = false;
+  createDialogVisible = false;
 
   constructor(
     private primeng: PrimeNG,
@@ -60,6 +63,10 @@ export class AppComponent implements OnInit {
   openDialogToEdit(product: Product) { // Corrigido o tipo para Product
     this.selectedProduct = product;
     this.editDialogVisible = true;
+  }
+
+  openDialogToCreate() { // Corrigido o tipo para Product
+    this.createDialogVisible = true;
   }
 
   deleteProduct(id: number) {
@@ -140,6 +147,48 @@ export class AppComponent implements OnInit {
             break;
           case 409:
             errorMessage = 'Conflito ao atualizar o produto';
+            break;
+        }
+
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erro',
+          detail: errorMessage,
+          life: 5000,
+          icon: 'pi pi-exclamation-triangle'
+        });
+      }
+    });
+  }
+
+  // No app.component.ts, adicione o método createProduct
+  createProduct(product: Product) {
+    this.service.createProduct(product).subscribe({
+      next: (response) => {
+        this.createDialogVisible = false;
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Sucesso',
+          detail: 'Produto criado com sucesso!',
+          life: 3000
+        });
+        this.loadProducts();
+      },
+      error: (error: HttpErrorResponse) => {
+        let errorMessage = 'Erro ao criar produto';
+
+        switch (error.status) {
+          case 403:
+            errorMessage = 'Você não tem permissão para criar produtos';
+            break;
+          case 400:
+            errorMessage = 'Dados do produto inválidos';
+            break;
+          case 500:
+            errorMessage = 'Erro interno do servidor';
+            break;
+          case 409:
+            errorMessage = 'Já existe um produto com este nome';
             break;
         }
 

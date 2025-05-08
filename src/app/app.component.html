@@ -1,5 +1,14 @@
 <p-toast position="top-right"></p-toast>
 
+<div class="mb-3">
+  <p-button
+    label="Novo Produto"
+    icon="pi pi-plus"
+    (click)="openDialogToCreate()"
+  ></p-button>
+</div>
+
+<br />
 <p-table [value]="products"
          showGridlines
          stripedRows
@@ -34,11 +43,9 @@
       <td>{{product.category?.name}}</td>
       <td>
         <p-button label="Editar"
-                  class="p-button-warning mr-2"
                   (click)="openDialogToEdit(product)"
                   [style]="{'margin-right': '.5em'}"/>
         <p-button label="Excluir"
-                  class="p-button-danger"
                   (click)="openDialogToDelete(product)"/>
       </td>
     </tr>
@@ -55,4 +62,9 @@
   [(visible)]="editDialogVisible"
   [product]="selectedProduct"
   (confirmEdit)="updateProduct($event)"
+/>
+
+  <app-create-product-dialog
+    [(visible)]="createDialogVisible"
+    (confirmCreate)="createProduct($event)"
 />
