@@ -92,8 +92,10 @@ export class CreateProductDialogComponent implements OnInit {
   newProduct: Product = {
     id: undefined,
     name: '',
+    description: '',
+    amount: 0,
     price: 0,
-    category: { id: 0, name: '' }
+    category: { id: 0, name: '', path: '' }
   };
 
   categories: Category[] = [];
@@ -148,8 +150,10 @@ export class CreateProductDialogComponent implements OnInit {
     this.newProduct = {
       id: undefined,
       name: '',
+      description: '',
+      amount: 0,
       price: 0,
-      category: { id: 0, name: '' }
+      category: { id: 0, name: '', path: '' }
     };
     this.selectedCategory = null;
   }

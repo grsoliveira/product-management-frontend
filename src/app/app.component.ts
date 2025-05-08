@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { PrimeNG } from 'primeng/config';
-import { TableModule } from 'primeng/table';
-import { Product } from './model/product.model';
-import { ProductService } from './service/product.service';
-import { Button } from 'primeng/button';
-import { DeleteProductDialogComponent } from './delete-product-dialog/delete-product-dialog.component';
-import { EditProductDialogComponent } from './edit-product-dialog/edit-product-dialog.component';
-import { CurrencyPipe } from '@angular/common';
-import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
-import { HttpErrorResponse } from '@angular/common/http';
+import {Component, OnInit} from '@angular/core';
+import {PrimeNG} from 'primeng/config';
+import {TableModule} from 'primeng/table';
+import {Product} from './model/product.model';
+import {ProductService} from './service/product.service';
+import {Button} from 'primeng/button';
+import {DeleteProductDialogComponent} from './delete-product-dialog/delete-product-dialog.component';
+import {EditProductDialogComponent} from './edit-product-dialog/edit-product-dialog.component';
+import {CurrencyPipe, NgIf} from '@angular/common';
+import {ToastModule} from 'primeng/toast';
+import {MessageService} from 'primeng/api';
+import {HttpErrorResponse} from '@angular/common/http';
 import {CreateProductDialogComponent} from './create-product-dialog/create-product-dialog.component';
+import {ProductToList} from './model/product-to-list.model';
 
 @Component({
   selector: 'app-root',
@@ -22,16 +23,18 @@ import {CreateProductDialogComponent} from './create-product-dialog/create-produ
     EditProductDialogComponent,
     CurrencyPipe,
     ToastModule,
-    CreateProductDialogComponent
+    CreateProductDialogComponent,
+    NgIf
   ],
   providers: [MessageService],
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
   title(title: any) {
-      throw new Error('Method not implemented.');
+    throw new Error('Method not implemented.');
   }
-  products: Product[] = [];
+
+  products: ProductToList[] = [];
   selectedProduct: Product | null = null; // Corrigido o tipo para Product
   deleteDialogVisible = false;
   editDialogVisible = false;
@@ -41,7 +44,8 @@ export class AppComponent implements OnInit {
     private primeng: PrimeNG,
     private service: ProductService,
     private messageService: MessageService
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.primeng.ripple.set(true);

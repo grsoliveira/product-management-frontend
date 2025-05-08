@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Product } from '../model/product.model';
 import { Category } from '../model/category.model';
+import {ProductToList} from '../model/product-to-list.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,8 @@ export class ProductService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.baseProductUrl);
+  getAll(): Observable<ProductToList[]> {
+    return this.http.get<ProductToList[]>(this.baseProductUrl);
   }
 
   getAllCategories(): Observable<Category[]> {

@@ -94,8 +94,10 @@ export class EditProductDialogComponent implements OnInit {
   editableProduct: Product = {
     id: undefined,
     name: '',
+    description: '',
+    amount: 0,
     price: 0,
-    category: { id: 0, name: '' }
+    category: { id: 0, name: '', path: '' }
   };
 
   categories: Category[] = [];

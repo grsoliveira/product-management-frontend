@@ -2,7 +2,7 @@
 
 <div class="mb-3">
   <p-button
-    label="Novo Produto"
+    label="Create"
     icon="pi pi-plus"
     (click)="openDialogToCreate()"
   ></p-button>
@@ -18,20 +18,28 @@
          [tableStyle]="{ 'min-width': '50rem' }">
   <ng-template pTemplate="header">
     <tr>
-      <th pSortableColumn="name" style="width:25%">
-        Nome
+      <th pSortableColumn="name" style="width:15%">
+        Name
         <p-sortIcon field="name"/>
       </th>
-      <th pSortableColumn="price" style="width:20%">
-        Preço
+      <th pSortableColumn="description" style="width:25%">
+        Description
+        <p-sortIcon field="description"/>
+      </th>
+      <th pSortableColumn="available" style="width:10%">
+        Available
+        <p-sortIcon field="available"/>
+      </th>
+      <th pSortableColumn="price" style="width:15%">
+        Price
         <p-sortIcon field="price"/>
       </th>
-      <th pSortableColumn="category" style="width:25%">
-        Categoria
+      <th pSortableColumn="category" style="width:20%">
+        Category Path
         <p-sortIcon field="category"/>
       </th>
-      <th style="width:20%">
-        Ações
+      <th style="width:15%">
+        Actions
       </th>
     </tr>
   </ng-template>
@@ -39,13 +47,18 @@
   <ng-template pTemplate="body" let-product>
     <tr>
       <td>{{product.name}}</td>
+      <td>{{product.description}}</td>
+      <td class="text-center">
+        <span style="color: green" *ngIf="product.available">Yes</span>
+        <span style="color: darkred" *ngIf="!product.available">No</span>
+      </td>
       <td>{{product.price | currency:'BRL'}}</td>
-      <td>{{product.category?.name}}</td>
+      <td>{{product.category}}</td>
       <td>
-        <p-button label="Editar"
+        <p-button label="Edit"
                   (click)="openDialogToEdit(product)"
                   [style]="{'margin-right': '.5em'}"/>
-        <p-button label="Excluir"
+        <p-button label="Remove"
                   (click)="openDialogToDelete(product)"/>
       </td>
     </tr>

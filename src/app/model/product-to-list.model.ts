@@ -1,10 +1,10 @@
 import {Category} from './category.model';
 
-export interface Product {
+export interface ProductToList {
   id?: number;
   name: string;
   description: string;
-  amount: number;
+  available: boolean;
   price: number;
-  category: Category;
+  category: string;
 }
