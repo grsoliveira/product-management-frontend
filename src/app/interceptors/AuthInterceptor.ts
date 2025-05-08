@@ -1,4 +1,3 @@
-// src/app/interceptors/auth.interceptor.ts
 import { inject } from '@angular/core';
 import {
   HttpInterceptorFn,
@@ -18,10 +17,8 @@ export const authInterceptor: HttpInterceptorFn = (
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  // Pega o token armazenado
   const token = sessionStorage.getItem('auth_token');
 
-  // Se houver um token, adiciona ele no header
   if (token) {
     request = request.clone({
       setHeaders: {

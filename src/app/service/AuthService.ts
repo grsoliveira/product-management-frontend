@@ -1,4 +1,3 @@
-// src/app/service/auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
@@ -16,7 +15,6 @@ export class AuthService {
     private http: HttpClient,
     private router: Router
   ) {
-    // Verifica se já existe um token salvo ao iniciar o serviço
     this.checkAuthStatus();
   }
 

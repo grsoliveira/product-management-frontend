@@ -24,7 +24,7 @@ import {CreateProductDialogComponent} from './create-product-dialog/create-produ
     ToastModule,
     CreateProductDialogComponent
   ],
-  providers: [MessageService], // Adiciona o MessageService ao componente
+  providers: [MessageService],
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
@@ -55,17 +55,17 @@ export class AppComponent implements OnInit {
     });
   }
 
-  openDialogToDelete(product: Product) { // Corrigido o tipo para Product
+  openDialogToDelete(product: Product) {
     this.selectedProduct = product;
     this.deleteDialogVisible = true;
   }
 
-  openDialogToEdit(product: Product) { // Corrigido o tipo para Product
+  openDialogToEdit(product: Product) {
     this.selectedProduct = product;
     this.editDialogVisible = true;
   }
 
-  openDialogToCreate() { // Corrigido o tipo para Product
+  openDialogToCreate() {
     this.createDialogVisible = true;
   }
 
@@ -161,7 +161,6 @@ export class AppComponent implements OnInit {
     });
   }
 
-  // No app.component.ts, adicione o método createProduct
   createProduct(product: Product) {
     this.service.createProduct(product).subscribe({
       next: (response) => {
