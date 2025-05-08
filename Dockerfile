@@ -4,7 +4,7 @@ WORKDIR /app
 COPY package*.json .
 RUN npm install
 COPY . .
-RUN npm run prod
+RUN npm start
 
 FROM nginx:1.19
 
