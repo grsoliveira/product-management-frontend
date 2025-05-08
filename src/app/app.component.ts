@@ -8,10 +8,13 @@ import {DeleteProductDialogComponent} from './delete-product-dialog/delete-produ
 import {EditProductDialogComponent} from './edit-product-dialog/edit-product-dialog.component';
 import {CurrencyPipe, NgIf} from '@angular/common';
 import {ToastModule} from 'primeng/toast';
-import {MessageService} from 'primeng/api';
+import {ConfirmationService, MessageService} from 'primeng/api';
 import {HttpErrorResponse} from '@angular/common/http';
 import {CreateProductDialogComponent} from './create-product-dialog/create-product-dialog.component';
 import {ProductToList} from './model/product-to-list.model';
+import {APP_MESSAGES} from './core/constants/messages.constants';
+import {AuthService} from './service/AuthService';
+import {ConfirmDialog} from 'primeng/confirmdialog';
 
 @Component({
   selector: 'app-root',
@@ -24,9 +27,10 @@ import {ProductToList} from './model/product-to-list.model';
     CurrencyPipe,
     ToastModule,
     CreateProductDialogComponent,
-    NgIf
+    NgIf,
+    ConfirmDialog
   ],
-  providers: [MessageService],
+  providers: [MessageService, ConfirmationService],
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
@@ -34,39 +38,7 @@ export class AppComponent implements OnInit {
     throw new Error('Method not implemented.');
   }
 
-  private readonly messages = {
-    success: {
-      created: 'Product successfully created!',
-      updated: 'Product successfully updated!',
-      deleted: 'Product successfully deleted!'
-    },
-    error: {
-      default: 'An error has occurred',
-      create: {
-        default: 'Error creating product',
-        forbidden: 'You do not have permission to create products',
-        invalidData: 'Invalid product data',
-        conflict: 'A product with this name already exists',
-        server: 'Internal server error'
-      },
-      update: {
-        default: 'Error updating product',
-        notFound: 'Product not found',
-        forbidden: 'You do not have permission to update this product',
-        invalidData: 'Invalid product data',
-        conflict: 'Update conflict - product may have been modified',
-        server: 'Internal server error'
-      },
-      delete: {
-        default: 'Error deleting product',
-        notFound: 'Product not found',
-        forbidden: 'You do not have permission to delete this product',
-        conflict: 'Delete conflict - product may have been modified',
-        server: 'Internal server error'
-      }
-    }
-  };
-
+  private readonly messages = APP_MESSAGES;
 
   products: ProductToList[] = [];
   selectedProduct: Product | null = null;
@@ -77,7 +49,9 @@ export class AppComponent implements OnInit {
   constructor(
     private primeng: PrimeNG,
     private service: ProductService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private authService: AuthService,
+    private confirmationService: ConfirmationService
   ) {
   }
 
@@ -242,4 +216,24 @@ export class AppComponent implements OnInit {
       }
     });
   }
+
+  logout() {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to log out?',
+      header: 'Logout Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.products = [];
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Logout',
+          detail: 'Successfully logged out',
+          life: 3000
+        });
+        this.authService.logout();
+      }
+    });
+  }
+
+
 }

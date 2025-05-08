@@ -9,7 +9,7 @@ import { Product } from '../model/product.model';
   selector: 'app-delete-product-dialog',
   template: `
     <p-dialog
-      header="Confirmação de Remoção"
+      header="Confirm Deletion"
       [(visible)]="visible"
       [modal]="true"
       [closable]="false"

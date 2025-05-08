@@ -26,7 +26,7 @@ import {Textarea} from 'primeng/textarea';
   ],
   template: `
     <p-dialog
-      header="Editar Produto"
+      header="Update Product"
       [(visible)]="visible"
       [modal]="true"
       [closable]="false"
