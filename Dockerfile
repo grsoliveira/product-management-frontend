@@ -1,29 +1,12 @@
-# Etapa de build
-FROM node:18 AS builder
+FROM node:18 as build
 
 WORKDIR /app
-
-# Instala as dependências
-COPY package*.json ./
+COPY package*.json .
 RUN npm install
-
-# Copia todo o projeto
 COPY . .
+RUN npm run prod
 
-# Compila o Angular
-RUN npm run build
+FROM nginx:1.19
 
-# Etapa de produção (Nginx)
-FROM nginx:alpine
-
-# Copia os arquivos buildados do Angular para o Nginx
-COPY --from=builder /app/dist/product-management-frontend /usr/share/nginx/html
-
-# Copia o nginx.conf customizado
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Exponha a porta padrão do Nginx
-EXPOSE 80
-
-# Inicia o Nginx
-CMD ["nginx", "-g", "daemon off;"]
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
+COPY --from=build /app/dist/product-management-frontend/ /usr/share/nginx/html
